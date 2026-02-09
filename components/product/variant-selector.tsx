@@ -2,12 +2,34 @@
 
 import clsx from 'clsx';
 import { useProduct, useUpdateURL } from 'components/product/product-context';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
 import { ProductOption, ProductVariant } from 'lib/shopify/types';
 
 type Combination = {
   id: string;
   availableForSale: boolean;
   [key: string]: string | boolean;
+};
+
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: [0.22, 1, 0.36, 1]
+    }
+  }
+};
+
+const buttonVariants: Variants = {
+  initial: { scale: 1 },
+  hover: { 
+    scale: 1.05,
+    transition: { duration: 0.2, ease: 'easeOut' }
+  },
+  tap: { scale: 0.95 }
 };
 
 export function VariantSelector({
@@ -35,59 +57,94 @@ export function VariantSelector({
     )
   }));
 
-  return options.map((option) => (
-    <form key={option.id}>
-      <dl className="mb-8">
-        <dt className="mb-4 text-sm uppercase tracking-wide">{option.name}</dt>
-        <dd className="flex flex-wrap gap-3">
-          {option.values.map((value) => {
-            const optionNameLowerCase = option.name.toLowerCase();
+  return (
+    <div className="space-y-8 mb-10">
+      {options.map((option, index) => (
+        <motion.form 
+          key={option.id}
+          variants={sectionVariants}
+          initial="hidden"
+          animate="visible"
+          transition={{ delay: index * 0.1 }}
+        >
+          <dl>
+            <dt className="mb-4 text-sm font-semibold uppercase tracking-wider text-neutral-900">
+              {option.name}
+            </dt>
+            <dd className="flex flex-wrap gap-3">
+              <AnimatePresence mode="popLayout">
+                {option.values.map((value) => {
+                  const optionNameLowerCase = option.name.toLowerCase();
+                  const optionParams = { ...state, [optionNameLowerCase]: value };
 
-            // Base option params on current selectedOptions so we can preserve any other param state.
-            const optionParams = { ...state, [optionNameLowerCase]: value };
+                  const filtered = Object.entries(optionParams).filter(([key, value]) =>
+                    options.find(
+                      (option) => option.name.toLowerCase() === key && option.values.includes(value)
+                    )
+                  );
+                  const isAvailableForSale = combinations.find((combination) =>
+                    filtered.every(
+                      ([key, value]) => combination[key] === value && combination.availableForSale
+                    )
+                  );
 
-            // Filter out invalid options and check if the option combination is available for sale.
-            const filtered = Object.entries(optionParams).filter(([key, value]) =>
-              options.find(
-                (option) => option.name.toLowerCase() === key && option.values.includes(value)
-              )
-            );
-            const isAvailableForSale = combinations.find((combination) =>
-              filtered.every(
-                ([key, value]) => combination[key] === value && combination.availableForSale
-              )
-            );
+                  const isActive = state[optionNameLowerCase] === value;
 
-            // The option is active if it's in the selected options.
-            const isActive = state[optionNameLowerCase] === value;
-
-            return (
-              <button
-                formAction={() => {
-                  const newState = updateOption(optionNameLowerCase, value);
-                  updateURL(newState);
-                }}
-                key={value}
-                aria-disabled={!isAvailableForSale}
-                disabled={!isAvailableForSale}
-                title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
-                className={clsx(
-                  'flex min-w-[48px] items-center justify-center rounded-full border bg-neutral-100 px-2 py-1 text-sm dark:border-neutral-800 dark:bg-neutral-900',
-                  {
-                    'cursor-default ring-2 ring-blue-600': isActive,
-                    'ring-1 ring-transparent transition duration-300 ease-in-out hover:ring-blue-600':
-                      !isActive && isAvailableForSale,
-                    'relative z-10 cursor-not-allowed overflow-hidden bg-neutral-100 text-neutral-500 ring-1 ring-neutral-300 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-neutral-300 before:transition-transform dark:bg-neutral-900 dark:text-neutral-400 dark:ring-neutral-700 dark:before:bg-neutral-700':
-                      !isAvailableForSale
-                  }
-                )}
-              >
-                {value}
-              </button>
-            );
-          })}
-        </dd>
-      </dl>
-    </form>
-  ));
+                  return (
+                    <motion.button
+                      key={value}
+                      formAction={() => {
+                        const newState = updateOption(optionNameLowerCase, value);
+                        updateURL(newState);
+                      }}
+                      aria-disabled={!isAvailableForSale}
+                      disabled={!isAvailableForSale}
+                      title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
+                      variants={buttonVariants}
+                      initial="initial"
+                      whileHover={isAvailableForSale ? "hover" : "initial"}
+                      whileTap={isAvailableForSale ? "tap" : "initial"}
+                      layout
+                      className={clsx(
+                        'relative flex min-w-[56px] items-center justify-center rounded-lg border-2 px-4 py-2.5 text-sm font-medium transition-all duration-200',
+                        {
+                          'border-white bg-amber-600 text-white shadow-md': isActive,
+                          'border-neutral-300 bg-white text-neutral-900 hover:border-neutral-400 hover:shadow-sm':
+                            !isActive && isAvailableForSale,
+                          'cursor-not-allowed border-neutral-200 bg-neutral-50 text-neutral-400':
+                            !isAvailableForSale
+                        }
+                      )}
+                    >
+                      {!isAvailableForSale && (
+                        <motion.span
+                          className="absolute inset-0 flex items-center justify-center"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <span className="h-px w-full rotate-[-20deg] bg-neutral-300" />
+                        </motion.span>
+                      )}
+                      <span className={clsx({ 'relative z-10': !isAvailableForSale })}>
+                        {value}
+                      </span>
+                      {isActive && (
+                        <motion.span
+                          layoutId="activeIndicator"
+                          className="absolute inset-0 rounded-lg"
+                          style={{ zIndex: -1 }}
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                        />
+                      )}
+                    </motion.button>
+                  );
+                })}
+              </AnimatePresence>
+            </dd>
+          </dl>
+        </motion.form>
+      ))}
+    </div>
+  );
 }

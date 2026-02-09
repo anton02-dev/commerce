@@ -6,10 +6,18 @@ const collectionFragment = /* GraphQL */ `
     handle
     title
     description
+    
     seo {
       ...seo
     }
     updatedAt
+    image {
+      url
+      altText
+      width
+      height
+    }
+      
   }
   ${seoFragment}
 `;
