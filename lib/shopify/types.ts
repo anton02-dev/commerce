@@ -71,6 +71,8 @@ export type Page = {
 export type Product = Omit<ShopifyProduct, 'variants' | 'images'> & {
   variants: ProductVariant[];
   images: Image[];
+  rating: number,
+  reviewCount: number,
 };
 
 export type ProductOption = {
@@ -88,6 +90,7 @@ export type ProductVariant = {
     value: string;
   }[];
   price: Money;
+  compareAtPrice: Money;
 };
 
 export type SEO = {
@@ -115,6 +118,13 @@ export type ShopifyCollection = {
   updatedAt: string;
 };
 
+export type Metafield = {
+  namespace: string;
+  key: string;
+  value: string;
+  type: string;
+};
+
 export type ShopifyProduct = {
   id: string;
   handle: string;
@@ -127,12 +137,19 @@ export type ShopifyProduct = {
     maxVariantPrice: Money;
     minVariantPrice: Money;
   };
+  compareAtPriceRange:{
+    maxVariantPrice: Money;
+    minVariantPrice: Money;
+  };
   variants: Connection<ProductVariant>;
   featuredImage: Image;
   images: Connection<Image>;
   seo: SEO;
   tags: string[];
   updatedAt: string;
+  metafields: Metafield[];
+  rating: number;
+  reviewCount: number;
 };
 
 export type ShopifyCartOperation = {

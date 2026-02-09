@@ -6,9 +6,9 @@ import {
 import { isShopifyError } from 'lib/type-guards';
 import { ensureStartsWith } from 'lib/utils';
 import {
-  revalidateTag,
-  unstable_cacheTag as cacheTag,
-  unstable_cacheLife as cacheLife
+  cacheLife,
+  cacheTag,
+  revalidateTag
 } from 'next/cache';
 import { cookies, headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
@@ -193,7 +193,9 @@ const reshapeProduct = (
   return {
     ...rest,
     images: reshapeImages(images, product.title),
-    variants: removeEdgesAndNodes(variants)
+    variants: removeEdgesAndNodes(variants),
+     rating: product.rating ?? 0,       
+    reviewCount: product.reviewCount ?? 0, 
   };
 };
 
@@ -327,9 +329,15 @@ export async function getCollectionProducts({
     return [];
   }
 
-  return reshapeProducts(
-    removeEdgesAndNodes(res.body.data.collection.products)
-  );
+  const reshaped = reshapeProducts(
+  removeEdgesAndNodes(res.body.data.collection.products)
+).map(product => ({
+  ...product,
+  rating: 0,
+  reviewCount: 0,
+}));
+
+return reshaped;
 }
 
 export async function getCollections(): Promise<Collection[]> {
@@ -489,12 +497,12 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ status: 200 });
   }
 
-  if (isCollectionUpdate) {
-    revalidateTag(TAGS.collections);
+  if (isCollectionUpdate) { 
+    revalidateTag(TAGS.collections, 'max');
   }
 
   if (isProductUpdate) {
-    revalidateTag(TAGS.products);
+    revalidateTag(TAGS.products, 'max');
   }
 
   return NextResponse.json({ status: 200, revalidated: true, now: Date.now() });

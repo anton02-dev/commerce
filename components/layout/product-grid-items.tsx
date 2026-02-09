@@ -1,32 +1,71 @@
+'use client'
+
 import Grid from 'components/grid';
-import { GridTileImage } from 'components/grid/tile';
+import ProductCard from 'components/product/card';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Product } from 'lib/shopify/types';
-import Link from 'next/link';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const itemVariants: any = {
+  hidden: { 
+    opacity: 0, 
+    y: 20,
+    scale: 0.95
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 12
+    }
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.9,
+    transition: {
+      duration: 0.2
+    }
+  }
+};
 
 export default function ProductGridItems({ products }: { products: Product[] }) {
   return (
-    <>
-      {products.map((product) => (
-        <Grid.Item key={product.handle} className="animate-fadeIn">
-          <Link
-            className="relative inline-block h-full w-full"
-            href={`/product/${product.handle}`}
-            prefetch={true}
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={products.map(p => p.handle).join('-')}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
+        className="contents"
+      >
+        {products.map((product, index) => (
+          <motion.div
+            key={product.handle}
+            variants={itemVariants}
+            custom={index}
+            layout
+            className="contents"
           >
-            <GridTileImage
-              alt={product.title}
-              label={{
-                title: product.title,
-                amount: product.priceRange.maxVariantPrice.amount,
-                currencyCode: product.priceRange.maxVariantPrice.currencyCode
-              }}
-              src={product.featuredImage?.url}
-              fill
-              sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
-            />
-          </Link>
-        </Grid.Item>
-      ))}
-    </>
+            <Grid.Item className="group">
+              <ProductCard product={product} rating={product.rating} reviewCount={product.reviewCount} />
+            </Grid.Item>
+          </motion.div>
+        ))}
+      </motion.div>
+    </AnimatePresence>
   );
 }

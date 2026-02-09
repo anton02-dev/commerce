@@ -24,6 +24,16 @@ const productFragment = /* GraphQL */ `
         currencyCode
       }
     }
+    compareAtPriceRange {
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
     variants(first: 250) {
       edges {
         node {
@@ -35,6 +45,10 @@ const productFragment = /* GraphQL */ `
             value
           }
           price {
+            amount
+            currencyCode
+          }
+          compareAtPrice {
             amount
             currencyCode
           }
@@ -56,6 +70,15 @@ const productFragment = /* GraphQL */ `
     }
     tags
     updatedAt
+    metafields(identifiers: [
+      { namespace: "reviews", key: "rating_count" }
+      { namespace: "reviews", key: "rating" }
+    ]) {
+      namespace
+      key
+      value
+      type
+    }
   }
   ${imageFragment}
   ${seoFragment}
