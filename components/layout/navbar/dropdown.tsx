@@ -13,7 +13,6 @@ interface Collection {
 
 export default function CategoriesDropdown({ collections }: { collections: Collection[] }) {
   if (!collections || collections.length === 0) return null;
-
   return (
     <HeadlessMenu as="div" className="relative inline-block text-left">
       <div>

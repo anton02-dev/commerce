@@ -1,0 +1,38 @@
+{
+    "Navbar":{
+        "home": "Acasa",
+        "contact": "Contact",
+        "store": "Magazin" ,
+        "search": "Cauta produse...",
+        "announcement1": "Garanție de 60 zile pentru returnarea banilor",
+        "announcement2": "Serviciu clienți profesional",
+        "announcement3": "Garanție de preț"
+    },
+    "HomeCarousel":{
+        "idealProducts": "Produsele ideale",
+        "idealProducts2": "pentru gratarul tau",
+        "viewButton": "VEZI TOATE",
+        "details": "Detalii",
+        "viewMore": "Vezi mai multe",
+        "mostPopular": "Cele mai populare",
+        "categories": "categorii"
+    },
+    "Contact": {
+        "help": "Cum te putem ajuta?",
+        "weAreHere": "Indiferent dacă ai nevoie de asistență tehnică, informații despre produsele noastre sau de o consultanță personalizată, echipa noastră este pregătită să-ți răspundă",
+        "success": "Mesajul a fost trimis cu succes!",
+        "fullName": "Nume complet",
+        "namePlaceholder": "Ion Popescu",
+        "email": "Email",
+        "emailPlaceholder": "ion.popescu@email.com",
+        "phone": "Telefon",
+        "phonePlaceholder": "0712345678",
+        "message": "Mesaj",
+        "messagePlaceholder": "Scrie-ne mesajul tau...",
+        "Iagree": "Sunt de acord cu",
+        "terms": "termenii și condițiile",
+        "site": "site-ului",
+        "send": "Trimite mesajul",
+        "location": "Locație"
+    }
+}

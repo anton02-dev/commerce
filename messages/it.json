@@ -1,0 +1,38 @@
+{
+    "Navbar":{
+        "home": "Home",
+        "contact": "Contatti",
+        "store": "Negozio",
+        "search": "Cerca prodotti...",
+        "announcement1": "Garanzia di rimborso di 60 giorni",
+        "announcement2": "Servizio clienti professionale",
+        "announcement3": "Garanzia del miglior prezzo"
+    },
+    "HomeCarousel":{
+        "idealProducts": "I prodotti ideali",
+        "idealProducts2": "per il tuo barbecue",
+        "viewButton": "VEDI TUTTO",
+        "details": "Dettagli",
+        "viewMore": "Vedi di più",
+        "mostPopular": "I più popolari",
+        "categories": "categorie"
+    },
+    "Contact": {
+        "help": "Come possiamo aiutarti?",
+        "weAreHere": "Che tu abbia bisogno di assistenza tecnica, informazioni sui nostri prodotti o di una consulenza personalizzata, il nostro team è pronto a risponderti",
+        "success": "Il messaggio è stato inviato con successo!",
+        "fullName": "Nome completo",
+        "namePlaceholder": "Mario Rossi",
+        "email": "Email",
+        "emailPlaceholder": "mario.rossi@email.com",
+        "phone": "Telefono",
+        "phonePlaceholder": "0712345678",
+        "message": "Messaggio",
+        "messagePlaceholder": "Scrivici il tuo messaggio...",
+        "Iagree": "Accetto i",
+        "terms": "termini e condizioni",
+        "site": "del sito",
+        "send": "Invia messaggio",
+        "location": "Posizione"
+    }
+}

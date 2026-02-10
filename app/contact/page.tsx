@@ -1,6 +1,7 @@
 'use client'
 import { motion } from 'framer-motion';
 import { CheckCircle, Mail, MapPin, MessageSquare, Phone, User } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useState } from "react";
 
 interface Form{ 
@@ -158,6 +159,8 @@ export default function Contact() {
         }
     };
 
+    const t = useTranslations("Contact");
+
     return(
         <>
           <svg className="w-full h-12 sm:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -179,13 +182,13 @@ export default function Contact() {
                 variants={fadeInUp}
                 className='text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 sm:mb-6 text-center'
               >
-                Cum te putem ajuta?
+                {t("help")}
               </motion.h1>
               <motion.p 
                 variants={fadeInUp}
                 className='mb-6 sm:mb-8 text-center max-w-2xl text-sm sm:text-base '
               >
-                Indiferent dacă ai nevoie de asistență tehnică, informații despre produsele noastre sau de o consultanță personalizată, echipa noastră este pregătită să-ți răspundă
+                {t("weAreHere")}
               </motion.p>
            
             </motion.div>
@@ -208,7 +211,7 @@ export default function Contact() {
                       className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3"
                     >
                       <CheckCircle className="text-green-600 w-5 h-5 flex-shrink-0" />
-                      <p className="text-green-800 font-medium text-sm sm:text-base">Mesajul a fost trimis cu succes!</p>
+                      <p className="text-green-800 font-medium text-sm sm:text-base">{t("success")}</p>
                     </motion.div>
                   )}
 
@@ -219,7 +222,7 @@ export default function Contact() {
                     >
                       <label htmlFor="nume" className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                         <User className="w-4 h-4" />
-                        Nume complet
+                        {t("fullName")}
                       </label>
                       <input
                         type="text"
@@ -230,7 +233,7 @@ export default function Contact() {
                         className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-sm sm:text-base ${
                           errors.nume ? 'border-red-500' : 'border-gray-300'
                         }`}
-                        placeholder="Ion Popescu"
+                        placeholder={t("namePlaceholder")}
                       />
                       {errors.nume && <p className="mt-1 text-sm text-red-600">{errors.nume}</p>}
                     </motion.div>
@@ -241,7 +244,7 @@ export default function Contact() {
                     >
                       <label htmlFor="email" className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                         <Mail className="w-4 h-4" />
-                        Email
+                        {t("email")}
                       </label>
                       <input
                         type="email"
@@ -252,7 +255,7 @@ export default function Contact() {
                         className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-sm sm:text-base ${
                           errors.email ? 'border-red-500' : 'border-gray-300'
                         }`}
-                        placeholder="ion.popescu@email.com"
+                        placeholder={t("emailPlaceholder")}
                       />
                       {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
                     </motion.div>
@@ -263,7 +266,7 @@ export default function Contact() {
                     >
                       <label htmlFor="telefon" className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                         <Phone className="w-4 h-4" />
-                        Telefon
+                        {t("phone")}
                       </label>
                       <input
                         type="tel"
@@ -274,7 +277,7 @@ export default function Contact() {
                         className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-sm sm:text-base ${
                           errors.telefon ? 'border-red-500' : 'border-gray-300'
                         }`}
-                        placeholder="0712345678"
+                        placeholder={t("phonePlaceholder")}
                       />
                       {errors.telefon && <p className="mt-1 text-sm text-red-600">{errors.telefon}</p>}
                     </motion.div>
@@ -285,7 +288,7 @@ export default function Contact() {
                     >
                       <label htmlFor="mesaj" className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
                         <MessageSquare className="w-4 h-4" />
-                        Mesaj
+                        {t("message")}
                       </label>
                       <textarea
                         id="mesaj"
@@ -296,7 +299,7 @@ export default function Contact() {
                         className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none text-sm sm:text-base ${
                           errors.mesaj ? 'border-red-500' : 'border-gray-300'
                         }`}
-                        placeholder="Scrie-ne mesajul tău..."
+                        placeholder={t("messagePlaceholder")}
                       />
                       {errors.mesaj && <p className="mt-1 text-sm text-red-600">{errors.mesaj}</p>}
                     </motion.div>
@@ -311,11 +314,11 @@ export default function Contact() {
                           className="mt-1 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 flex-shrink-0"
                         />
                         <span className="text-sm text-gray-700">
-                          Sunt de acord cu{' '}
+                          {t("Iagree")}{' '}
                           <a href="#" className="text-blue-600 hover:text-blue-700 font-medium underline">
-                            termenii și condițiile
+                           {t("terms")}
                           </a>{' '}
-                          site-ului
+                          {t("site")}
                         </span>
                       </label>
                       {errors.termeni && <p className="mt-1 text-sm text-red-600">{errors.termeni}</p>}
@@ -327,7 +330,7 @@ export default function Contact() {
                       whileTap={{ scale: 0.98 }}
                       className="group relative inline-flex items-center justify-center w-full py-4 sm:py-5 text-lg sm:text-xl font-bold text-white bg-[#e06251] rounded-lg overflow-hidden shadow-2xl hover:shadow-[#e06251]/50 transition-all duration-300"
                     >
-                      <span className="relative z-10">Trimite mesajul</span>
+                      <span className="relative z-10">{t("send")}</span>
                       <div className="absolute inset-0 bg-gradient-to-r from-[#e06251] via-[#ff7d6b] to-[#e06251] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <svg
                         className="ml-3 w-5 h-5 sm:w-6 sm:h-6 relative z-10 group-hover:translate-x-1 transition-transform duration-300"
@@ -359,9 +362,9 @@ export default function Contact() {
                     className="flex flex-col gap-6 sm:gap-8"
                   >
                     {[
-                      { icon: Phone, title: "Telefon", info: "0740 123 456", href: "tel:0740123456" },
-                      { icon: Mail, title: "Email", info: "contact@gratarul-dragomir.ro", href: "mailto:contact@gratarul-dragomir.ro" },
-                      { icon: MapPin, title: "Locație", info: "Galați, România", href: "#" }
+                      { icon: Phone, title: t("phone"), info: "0740 123 456", href: "tel:0740123456" },
+                      { icon: Mail, title: t("email"), info: "contact@gratarul-dragomir.ro", href: "mailto:contact@gratarul-dragomir.ro" },
+                      { icon: MapPin, title: t("location"), info: "Galați, România", href: "#" }
                     ].map((contact, idx) => (
                       <motion.a
                         key={idx}

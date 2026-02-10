@@ -4,6 +4,7 @@ import { AddToCart } from 'components/cart/add-to-cart';
 import { ProductProvider } from 'components/product/product-context';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense, useRef, useState } from 'react';
@@ -11,47 +12,7 @@ import { Suspense, useRef, useState } from 'react';
 export function ProductCarouselClient({ products }: { products: any }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-
-  // const getProductRating = (product: Product): number | null => {
-  //   if (!product.metafields) return null;
-
-  //   const ratingMetafield = product.metafields?.find(
-  //       m => m?.namespace === 'reviews' && m.key === 'rating'
-  //   );
-    
-  //   if (!ratingMetafield) return null;
-    
-  //   try {
-  //       const parsed = JSON.parse(ratingMetafield.value);
-  //       return parseFloat(parsed.value);
-  //   } catch (error) {
-  //       console.error('Failed to parse rating metafield:', error);
-  //       return null;
-  //   }
-  // }
-
-  // const getProductReviewCount = (product: Product): number | null => {
-  //   if (!product.metafields) return null;
-
-  //   const countMetafield = product.metafields?.find(
-  //       m => m?.namespace === 'reviews' && m.key === 'rating_count'
-  //   );
-    
-  //   if (!countMetafield) return null;
-    
-  //   try {
-  //       const value = countMetafield.value;
-  //       if (value.startsWith('{')) {
-  //       const parsed = JSON.parse(value);
-  //       return parseInt(parsed.value, 10);
-  //       }
-  //       return parseInt(value, 10);
-  //   } catch (error) {
-  //       console.error('Failed to parse review count metafield:', error);
-  //       return null;
-  //   }
-  //   }
-
+  const t = useTranslations("HomeCarousel");
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -81,14 +42,14 @@ export function ProductCarouselClient({ products }: { products: any }) {
             className='mr-2 mt-0.5 sm:mt-1 sm:h-6 sm:w-6'
           />
           <span className='text-red-600'>
-            Produsele ideale <span className="text-black">pentru gratarul tau:</span>
+            {t("idealProducts")} <span className="text-black">{t("idealProducts2")}:</span>
           </span>
         </h2>
         <Link 
           href="/search" 
           className="flex items-center text-xs font-medium uppercase text-gray-700 hover:text-red-600 sm:text-sm"
         >
-          VEZI TOATE
+          {t("viewButton")}
           <span className="ml-1">→</span>
         </Link>
       </motion.div>
@@ -202,7 +163,7 @@ export function ProductCarouselClient({ products }: { products: any }) {
                 </a>
                 <div className="flex gap-2">
                   <a href={`/product/${product.handle}`} className="flex-1 bg-[#fcefdf] hover:bg-[#fce5cf] text-center text-black cursor-pointer px-4 py-2 rounded font-semibold  transition-colors duration-200">
-                    Detalii
+                    {t("details")}
                   </a>
                     <AddToCart product={product} />
                 </div>
@@ -237,7 +198,7 @@ export function ProductCarouselClient({ products }: { products: any }) {
                 className="relative w-[220px] h-[50px] bg-[#fcefdf] hover:bg-[#fce5cf] rounded-lg border-0 overflow-hidden shadow-md hover:shadow-lg transition-all"
               >
                 <span className="relative z-10 text-base font-bold text-black flex items-center justify-center h-full">
-                  Vezi mai multe →
+                  {t("viewMore")} →
                 </span>
               </a>
             </motion.div>

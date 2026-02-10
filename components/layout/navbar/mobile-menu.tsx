@@ -1,12 +1,12 @@
 'use client';
 
 import { Dialog, Transition } from '@headlessui/react';
-import { Bars3Icon, EnvelopeIcon, HomeIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 import { Menu } from 'lib/shopify/types';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Fragment, Suspense, useEffect, useState } from 'react';
-import { AnimatedMenuLink } from './ActiveLink';
+import { AnimatedMenuLink, AnimatedMenuLink2 } from './ActiveLink';
 import Search, { SearchSkeleton } from './search';
 
 export default function MobileMenu({ menu, collections }: { menu: Menu[], collections: any[] }) {
@@ -173,43 +173,10 @@ export default function MobileMenu({ menu, collections }: { menu: Menu[], collec
                   className='flex flex-col space-y-1 mb-6 border-b border-gray-100 pb-4'
                 >
                   <motion.div variants={itemVariants} className="w-full">
-                    <AnimatedMenuLink href="/" className="block w-full">
-                      <motion.div 
-                        className="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-black transition-colors w-full"
-                        whileHover={{ x: 4 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <HomeIcon className="h-5 w-5 mr-3" />
-                        <span className="text-base font-medium">Acasa</span>
-                      </motion.div>
+                    <AnimatedMenuLink>
                     </AnimatedMenuLink>
                   </motion.div>
 
-                  <motion.div variants={itemVariants} className="w-full">
-                    <AnimatedMenuLink href="/contact" className="block w-full">
-                      <motion.div 
-                        className="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-black transition-colors w-full"
-                        whileHover={{ x: 4 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <EnvelopeIcon className="h-5 w-5 mr-3" />
-                        <span className="text-base font-medium">Contact</span>
-                      </motion.div>
-                    </AnimatedMenuLink>
-                  </motion.div>
-                  
-                  <motion.div variants={itemVariants} className="w-full">
-                    <AnimatedMenuLink href="/search" className="block w-full">
-                      <motion.div 
-                        className="flex items-center p-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-black transition-colors w-full"
-                        whileHover={{ x: 4 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <ShoppingBagIcon className="h-5 w-5 mr-3" />
-                        <span className="text-base font-medium">Magazin</span>
-                      </motion.div>
-                    </AnimatedMenuLink>
-                  </motion.div>
                 </motion.nav>
 
                 {/* Categories Section */}
@@ -234,7 +201,7 @@ export default function MobileMenu({ menu, collections }: { menu: Menu[], collec
                         variants={itemVariants}
                         className='rounded-lg transition-colors duration-150 hover:bg-gray-100 w-full'
                       >
-                        <AnimatedMenuLink href={c.path ?? `/search/${c.handle}`} className="block w-full">
+                        <AnimatedMenuLink2 href={c.path ?? `/search/${c.handle}`} className="block w-full">
                           <motion.div 
                             className="flex items-center py-2 px-3 w-full"
                             whileHover={{ x: 4 }}
@@ -253,7 +220,7 @@ export default function MobileMenu({ menu, collections }: { menu: Menu[], collec
                               {c.title}
                             </span>
                           </motion.div>
-                        </AnimatedMenuLink>
+                        </AnimatedMenuLink2>
                       </motion.li>
                     ))}
                   </motion.ul>

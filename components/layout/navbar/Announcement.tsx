@@ -1,14 +1,19 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
-const items = [
-  { text: 'Garanție de 60 zile pentru returnarea banilor', href: '/returns' },
-  { text: 'Serviciu clienți profesional', href: '/contact' },
-  { text: 'Garanție de preț', href: '/price-guarantee' }
-];
 
 export default function AnnouncementBar() {
+
+  const t = useTranslations("Navbar")
+  const items = [
+  { text: t("announcement1"), href: '/returns' },
+  { text: t("announcement2"), href: '/contact' },
+  { text: t("announcement3"), href: '/price-guarantee' }
+];
+
+
   return (
     <div className="w-full bg-gray-50 border-t border-gray-100 py-2 overflow-hidden select-none group">
       {/* 1. Added 'group' class to the parent container above.

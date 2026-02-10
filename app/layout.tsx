@@ -4,7 +4,7 @@ import { Navbar } from 'components/layout/navbar';
 import { GeistSans } from 'geist/font/sans';
 import { getCart } from 'lib/shopify';
 import { baseUrl } from 'lib/utils';
-import { ReactNode, Suspense } from 'react';
+import { Suspense } from 'react';
 import './globals.css';
 const { SITE_NAME } = process.env;
 
@@ -21,28 +21,36 @@ export const metadata = {
 };
 
 
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 
 export default async function RootLayout({
   children,
+  params: { locale }
 }: {
-  children: ReactNode;
+  children: React.ReactNode;
+  params: { locale: string };
 }) {
   const cart = getCart();
-
+  const messages = await getMessages();
   return (
-    <html lang="en" className={`${GeistSans.variable} light`}>
+    <html lang={locale} className={`${GeistSans.variable} light`}>
       <body className="bg-[#fafafa] text-black selection:bg-teal-300 min-h-screen overflow-x-hidden">
+        <Suspense>
         <CartProvider cartPromise={cart}>
+              <NextIntlClientProvider messages={messages}>
+
           <Navbar />
           <main className='mt-32'>
             <Suspense>
-             {children}
-               {children}
+                {children}
+            
             </Suspense>
           </main>
             <Footer />
+              </NextIntlClientProvider>
         </CartProvider>
-
+        </Suspense>
       </body>
     </html>
   );

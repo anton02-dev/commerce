@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRef, useState } from 'react';
@@ -14,7 +15,7 @@ interface Collection {
 export function CarouselClient({ collections }: { collections: Collection[] }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-
+  const t = useTranslations("HomeCarousel")
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
       const scrollAmount = 300;
@@ -43,14 +44,14 @@ export function CarouselClient({ collections }: { collections: Collection[] }) {
             className='mr-2 mt-0.5 sm:mt-1 sm:h-6 sm:w-6'
           />
           <span className='text-red-600'>
-            Cele mai populare <span className="text-black">categorii:</span>
+            {t("mostPopular")} <span className="text-black">{t("categories")}:</span>
           </span>
         </h2>
         <Link 
           href="/search" 
           className="flex items-center text-xs font-medium uppercase text-gray-700 hover:text-red-600 sm:text-sm"
         >
-          VEZI TOATE
+          {t("viewButton")}
           <span className="ml-1">→</span>
         </Link>
       </motion.div>

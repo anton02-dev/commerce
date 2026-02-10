@@ -41,16 +41,7 @@ export async function Navbar() {
             {/* Desktop Links */}
             <div className='hidden md:flex items-center gap-1 lg:gap-2 flex-shrink-0'>
               <Suspense>
-                <ActiveLink href="/">
-                  <p className={desktopLinkStyle}>Acasa</p>
-                </ActiveLink>
-                <ActiveLink href="/contact">
-                  <p className={desktopLinkStyle}>Contact</p>
-                </ActiveLink>
-                <ActiveLink href="/search">
-                  <p className={desktopLinkStyle}>Magazin</p>
-                </ActiveLink>
-                
+                <ActiveLink />                
                 <CategoriesDropdown collections={visibleCollections} />
                 
               </Suspense>

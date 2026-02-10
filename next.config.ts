@@ -1,5 +1,8 @@
-export default {
-     cacheComponents: true,
+import { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
+ 
+const nextConfig: NextConfig = {
+  cacheComponents: true,
   experimental: {},
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -12,3 +15,8 @@ export default {
     ]
   }
 };
+ 
+const withNextIntl = createNextIntlPlugin();
+export default withNextIntl(nextConfig);
+
+
